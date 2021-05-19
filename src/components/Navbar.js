@@ -1,13 +1,12 @@
 import React from "react";
-import {Text, View, StyleSheet} from "react-native";
+import {StyleSheet, View} from "react-native";
+import AppTextBold from "./ui/AppTextBold";
 
-const Navbar = (props) => {
-    return (
-        <View style={styles.navbar}>
-            <Text style={styles.text}>{props.title}</Text>
-        </View>
-    )
-}
+const Navbar = (props) => (
+    <View style={styles.navbar}>
+        <AppTextBold style={styles.text}>{props.title}</AppTextBold>
+    </View>
+)
 
 const styles = StyleSheet.create({
     navbar: {

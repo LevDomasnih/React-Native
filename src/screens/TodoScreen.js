@@ -1,14 +1,72 @@
-import React from "react";
-import {StyleSheet, Text, View} from "react-native";
+import React, {useState} from "react";
+import {Button, StyleSheet, View} from "react-native";
+import theme from './../theme'
+import AppCard from "../components/ui/AppCard";
+import EditModal from "../components/EditModal";
+import AppTextBold from "../components/ui/AppTextBold";
+import AppButton from "../components/ui/AppButton";
+import {AntDesign, FontAwesome} from "@expo/vector-icons";
 
-const TodoScreen = (props) => {
+const TodoScreen = ({goBack, todo, removeTodo, onSave}) => {
+    const [modal, setModal] = useState(false)
+
+    const saveHandler = (title) => {
+        onSave(todo.id, title)
+        setModal(false)
+    }
+
     return (
-        <View>
-            <Text>Todo Screen</Text>
-        </View>
+        <>
+            <EditModal
+                value={todo.title}
+                visible={modal}
+                setModal={setModal}
+                onSave={saveHandler}
+            />
+
+            <AppCard style={styles.card}>
+                <AppTextBold style={styles.title}>{todo.title}</AppTextBold>
+                <AppButton onPress={() => setModal(true)}>
+                    <FontAwesome name='edit' size={20} color="#fff" />
+                </AppButton>
+            </AppCard>
+
+            <View style={styles.buttons}>
+                <View style={styles.button}>
+                    <AppButton
+                        onPress={goBack}
+                        color={theme.GREY_COLOR}
+                    >
+                        <AntDesign name='back' size={20} />
+                    </AppButton>
+                </View>
+                <View style={styles.button}>
+                    <AppButton
+                        color={theme.DANGER_COLOR}
+                        onPress={() => removeTodo(todo.id)}
+                    >
+                        <FontAwesome name='remove' size={20} />
+                    </AppButton>
+                </View>
+            </View>
+        </>
     )
 }
 
-export default TodoScreen
+const styles = StyleSheet.create({
+    buttons: {
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
+    button: {
+        width: "40%",
+    },
+    card: {
+        marginBottom: 20
+    },
+    title: {
+        fontSize: 26
+    }
+})
 
-const styles = StyleSheet.create({})
+export default TodoScreen

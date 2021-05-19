@@ -7,51 +7,51 @@ import theme from "../theme";
 import TodoContext from "../context/todo/todoContext";
 
 const MainLayout = () => {
-    const todoContext = useContext(TodoContext)
+    const {todos, addTodo, removeTodo, updateTodo} = useContext(TodoContext)
     const [todoId, setTodoId] = useState(null)
-    const [todos, setTodos] = useState([])
+    // const [todos, setTodos] = useState([])
 
-    const addTodo = (title) => {
-        const newTodo = {
-            id: Date.now().toString(),
-            title
-        }
+    // const addTodo = (title) => {
+    //     const newTodo = {
+    //         id: Date.now().toString(),
+    //         title
+    //     }
+    //
+    //     setTodos((prev) => [...prev, newTodo])
+    // }
 
-        setTodos((prev) => [...prev, newTodo])
-    }
+    // const removeTodo = (removeId) => {
+    //     const todo = todos.find(t => t.id === removeId)
+    //     Alert.alert(
+    //         "DELETE ELEMENT",
+    //         `You sure to delete ${todo.title}?`,
+    //         [
+    //             {
+    //                 text: "Cancel",
+    //                 style: 'cancel'
+    //             },
+    //             {
+    //                 text: "Delete",
+    //                 onPress: () => {
+    //                     setTodoId(null)
+    //                     setTodos(todos.filter(({id}) => id !== removeId))
+    //                 }
+    //             }
+    //         ],
+    //         {cancelable: false}
+    //     )
+    // }
 
-    const removeTodo = (removeId) => {
-        const todo = todos.find(t => t.id === removeId)
-        Alert.alert(
-            "DELETE ELEMENT",
-            `You sure to delete ${todo.title}?`,
-            [
-                {
-                    text: "Cancel",
-                    style: 'cancel'
-                },
-                {
-                    text: "Delete",
-                    onPress: () => {
-                        setTodoId(null)
-                        setTodos(todos.filter(({id}) => id !== removeId))
-                    }
-                }
-            ],
-            {cancelable: false}
-        )
-    }
-
-    const updateTodo = (id, title) => {
-        setTodos(prev => {
-            return prev.map(todo => {
-                if (todo.id === id) {
-                    todo.title = title
-                }
-                return todo
-            })
-        })
-    }
+    // const updateTodo = (id, title) => {
+    //     setTodos(prev => {
+    //         return prev.map(todo => {
+    //             if (todo.id === id) {
+    //                 todo.title = title
+    //             }
+    //             return todo
+    //         })
+    //     })
+    // }
 
     return (
         <>
@@ -66,7 +66,7 @@ const MainLayout = () => {
                     /> :
                     <MainScreen
                         addTodo={addTodo}
-                        todos={todoContext.todos}
+                        todos={todos}
                         removeTodo={removeTodo}
                         openTodo={setTodoId}
                     />

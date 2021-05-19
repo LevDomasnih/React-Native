@@ -1,33 +1,57 @@
-import React from "react";
-import {FlatList, Image, StyleSheet, View} from "react-native";
+import React, {useEffect, useState} from "react";
+import {Dimensions, FlatList, Image, StyleSheet, View} from "react-native";
 import Todo from "../components/Todo";
 import AddTodo from "../components/AddTodo";
+import theme from "../theme";
 
-const MainScreen = ({addTodo, todos, removeTodo, openTodo}) => (
-    <>
-        <AddTodo onSubmit={addTodo} todos={todos}/>
+const MainScreen = ({addTodo, todos, removeTodo, openTodo}) => {
+    const [deviceWidth, setDeviceWidth] = useState(
+        Dimensions.get("window").width - theme.PADDING_HORIZONTAL * 2
+    )
 
-        {todos.length ?
-            <FlatList
-                keyExtractor={item => item.id.toString()}
-                data={todos}
-                renderItem={({item}) => (
-                    <Todo
-                        todo={item}
-                        onRemove={removeTodo}
-                        onOpen={openTodo}
-                    />
-                )}
-            /> :
-            <View style={styles.imgWrap}>
-                <Image
-                    style={styles.image}
-                    source={require('../../assets/no-items.png')}
-                />
-            </View>
+    useEffect(() => {
+        const update = () => {
+            const width = Dimensions.get("window").width - theme.PADDING_HORIZONTAL * 2
+            setDeviceWidth(width)
         }
-    </>
-)
+
+        Dimensions.addEventListener('change', update)
+
+        return () => {
+            Dimensions.removeEventListener('change', update)
+        }
+    })
+
+
+    return (
+        <>
+            <AddTodo onSubmit={addTodo} todos={todos}/>
+
+            {todos.length ?
+                <View style={{ width: deviceWidth }}>
+                    <FlatList
+                        keyExtractor={item => item.id.toString()}
+                        data={todos}
+                        renderItem={({item}) => (
+                            <Todo
+                                todo={item}
+                                onRemove={removeTodo}
+                                onOpen={openTodo}
+                            />
+                        )}
+                    />
+                </View>
+                :
+                <View style={styles.imgWrap}>
+                    <Image
+                        style={styles.image}
+                        source={require('../../assets/no-items.png')}
+                    />
+                </View>
+            }
+        </>
+    )
+}
 
 const styles = StyleSheet.create({
     imgWrap: {

@@ -1,10 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Dimensions, FlatList, Image, StyleSheet, View} from "react-native";
 import Todo from "../components/Todo";
 import AddTodo from "../components/AddTodo";
 import theme from "../theme";
+import TodoContext from "../context/todo/todoContext";
+import ScreenContext from "../context/screen/screenContext";
 
-const MainScreen = ({addTodo, todos, removeTodo, openTodo}) => {
+const MainScreen = () => {
+    const {addTodo, todos, removeTodo} = useContext(TodoContext)
+    const {changeScreen} = useContext(ScreenContext)
     const [deviceWidth, setDeviceWidth] = useState(
         Dimensions.get("window").width - theme.PADDING_HORIZONTAL * 2
     )
@@ -28,7 +32,7 @@ const MainScreen = ({addTodo, todos, removeTodo, openTodo}) => {
             <AddTodo onSubmit={addTodo} todos={todos}/>
 
             {todos.length ?
-                <View style={{ width: deviceWidth }}>
+                <View style={{width: deviceWidth}}>
                     <FlatList
                         keyExtractor={item => item.id.toString()}
                         data={todos}
@@ -36,7 +40,7 @@ const MainScreen = ({addTodo, todos, removeTodo, openTodo}) => {
                             <Todo
                                 todo={item}
                                 onRemove={removeTodo}
-                                onOpen={openTodo}
+                                onOpen={changeScreen}
                             />
                         )}
                     />

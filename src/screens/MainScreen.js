@@ -55,7 +55,7 @@ const MainScreen = () => {
             <AddTodo onSubmit={addTodo} todos={todos}/>
 
             {todos.length ?
-                <View style={{width: deviceWidth}}>
+                <View style={{width: deviceWidth, flex: 1}}>
                     <FlatList
                         keyExtractor={item => item.id.toString()}
                         data={todos}

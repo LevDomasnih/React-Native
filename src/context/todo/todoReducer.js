@@ -15,11 +15,12 @@ const todoReducer = (state, action) => {
             return {
                 ...state,
                 todos: [
-                    ...state.todos,
                     {
                         id: action.id,
                         title: action.title
-                    }]
+                    },
+                    ...state.todos,
+                ]
             }
         case UPDATE_TODO:
             return {
@@ -59,7 +60,7 @@ const todoReducer = (state, action) => {
         case FETCH_TODOS:
             return {
                 ...state,
-                todos: action.todos
+                todos: action.todos.reverse()
             }
         default:
             return state
